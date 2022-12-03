@@ -22,7 +22,10 @@ class AuthService {
     });
 
     // Send mail to the created user
-    await mailService.sendActivationMail(email, hashedPassword);
+    await mailService.sendActivationMail(
+      email,
+      `${process.env.APP_URL}/auth/activate/${hashedPassword}`
+    );
 
     // Generate tokens
     const userDto = new UserDto(user);
