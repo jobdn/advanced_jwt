@@ -1,4 +1,5 @@
 const { hash } = require("bcrypt");
+const { v4 } = require("uuid");
 
 const mailService = require("./mail.service");
 const tokenService = require("./token.service");
@@ -24,7 +25,7 @@ class AuthService {
     // Send mail to the created user
     await mailService.sendActivationMail(
       email,
-      `${process.env.APP_URL}/auth/activate/${hashedPassword}`
+      `${process.env.APP_URL}/auth/activate/${v4()}`
     );
 
     // Generate tokens
