@@ -19,6 +19,8 @@ class TokenService {
     if (existToken) {
       existToken.token = refreshToken;
       existToken.save();
+
+      return;
     }
 
     const token = await RefreshTokenModel.create({

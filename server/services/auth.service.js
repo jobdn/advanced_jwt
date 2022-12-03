@@ -1,7 +1,7 @@
 const { hash } = require("bcrypt");
 
 const mailService = require("./mail.service");
-const tokenService = require("./tokens.service");
+const tokenService = require("./token.service");
 
 const { UserDto } = require("../dtos");
 
