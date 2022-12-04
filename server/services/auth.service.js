@@ -16,16 +16,17 @@ class AuthService {
 
     // Create a user
     const hashedPassword = await hash(password, 3);
+    const activationLink = v4();
     const user = await UserModel.create({
       email,
       password: hashedPassword,
-      activationLink: hashedPassword,
+      activationLink,
     });
 
     // Send mail to the created user
     await mailService.sendActivationMail(
       email,
-      `${process.env.APP_URL}/auth/activate/${v4()}`
+      `${process.env.SERVER_URL}/auth/activate/${user.activationLink}`
     );
 
     // Generate tokens
