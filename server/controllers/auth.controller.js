@@ -19,17 +19,38 @@ class AuthController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  async activate(req, res, next) {
+    try {
+      const { link } = req.params;
+      await authService.activateUserBy(link);
+      res.redirect(302, `${process.env.CLIENT_URL}/login`);
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
+  }
+
   async login(req, res, next) {
     try {
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
   }
   async logout(req, res, next) {
     try {
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
   }
   async refresh(req, res, next) {
     try {
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
   }
 }
 
