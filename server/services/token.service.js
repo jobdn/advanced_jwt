@@ -5,7 +5,7 @@ const RefreshTokenModel = require("../models/refresh-token");
 class TokenService {
   generateTokens(payload) {
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "10m",
+      expiresIn: "1m",
     });
     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: "10d",
