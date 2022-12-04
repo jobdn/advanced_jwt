@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 const corsConfig = require("./config/cors");
 
-const { authRouter } = require("./routes");
+const { authRouter, userRouter } = require("./routes");
 
 const errorMiddleware = require("./middlewares/error.middleware");
 
@@ -18,6 +18,7 @@ app.use(cors(corsConfig));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 app.use(errorMiddleware);
 
 async function start() {
