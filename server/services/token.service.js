@@ -38,5 +38,28 @@ class TokenService {
 
     return res;
   }
+
+  validateAccessToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      return userData;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  validateRefreshToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+      return userData;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async findOne(token) {
+    const tokenFromDb = await RefreshTokenModel.findOne({ token });
+    return tokenFromDb;
+  }
 }
 module.exports = new TokenService();
