@@ -30,6 +30,7 @@ class AuthService {
     );
 
     // Generate tokens
+    // TODO: DRY
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
@@ -55,6 +56,7 @@ class AuthService {
     const isEqual = await compare(password, existentUser.password);
     if (!isEqual) throw ApiError.BadRequestError("Invalid password.");
 
+    // TODO: DRY
     const userDto = new UserDto(existentUser);
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
@@ -64,6 +66,26 @@ class AuthService {
 
   async logout(refreshToken) {
     await tokenService.removeRefreshToken(refreshToken);
+  }
+
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.NotAuthorizedError();
+    }
+
+    const userData = tokenService.validateRefreshToken(refreshToken);
+    const existentToken = await tokenService.findOne(refreshToken);
+
+    if (!userData || !existentToken) {
+      throw ApiError.NotAuthorizedError();
+    }
+    // TODO: DRY
+    const user = await UserModel.findById(userData.id);
+    const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({ ...userDto });
+    await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
+
+    return { ...tokens, user: userDto };
   }
 }
 

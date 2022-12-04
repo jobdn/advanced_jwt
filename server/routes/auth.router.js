@@ -28,7 +28,7 @@ router.post(
     .isLength({ min: 5, max: 32 }),
   authController.login
 );
+router.get("/refresh", authController.refresh);
 router.post("/logout", authController.logout);
-router.post("/refresh", authController.refresh);
 
 module.exports = router;
