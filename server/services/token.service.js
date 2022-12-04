@@ -30,6 +30,13 @@ class TokenService {
 
     return token;
   }
-}
 
+  async removeRefreshToken(refreshToken) {
+    const res = await RefreshTokenModel.findOneAndRemove({
+      token: refreshToken,
+    });
+
+    return res;
+  }
+}
 module.exports = new TokenService();

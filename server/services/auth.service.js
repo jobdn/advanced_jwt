@@ -61,6 +61,10 @@ class AuthService {
 
     return { ...tokens, user: userDto };
   }
+
+  async logout(refreshToken) {
+    await tokenService.removeRefreshToken(refreshToken);
+  }
 }
 
 module.exports = new AuthService();
