@@ -4,6 +4,7 @@ const { v4 } = require("uuid");
 const mailService = require("./mail.service");
 const tokenService = require("./token.service");
 
+const ApiError = require("../exceptions/api");
 const { UserDto } = require("../dtos");
 
 const UserModel = require("../models/user");
@@ -11,8 +12,7 @@ const UserModel = require("../models/user");
 class AuthService {
   async registerUser(email, password) {
     const candidate = await UserModel.findOne({ email });
-
-    if (candidate) throw new Error("User already exists");
+    if (candidate) throw ApiError.BadRequestError("User already exists");
 
     // Create a user
     const hashedPassword = await hash(password, 3);
@@ -40,7 +40,8 @@ class AuthService {
   async activateUserBy(link) {
     const existentUser = await UserModel.findOne({ activationLink: link });
 
-    if (!existentUser) throw new Error("There is not user!!!");
+    if (!existentUser)
+      throw ApiError.BadRequestError("There is not such user!!!");
 
     existentUser.isActivated = true;
     await existentUser.save();
