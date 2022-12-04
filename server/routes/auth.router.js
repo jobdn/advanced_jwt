@@ -17,7 +17,17 @@ router.post(
   authController.registration
 );
 router.get("/activate/:link", authController.activate);
-router.post("/login", authController.login);
+router.post(
+  "/login",
+  body("email").isEmail(),
+  body(
+    "password",
+    "Password must have length more then 5 and less then 32 character."
+  )
+    .trim()
+    .isLength({ min: 5, max: 32 }),
+  authController.login
+);
 router.post("/logout", authController.logout);
 router.post("/refresh", authController.refresh);
 

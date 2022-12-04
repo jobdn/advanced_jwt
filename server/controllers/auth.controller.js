@@ -1,21 +1,12 @@
-const { validationResult } = require("express-validator");
 const { authService } = require("../services");
-const ApiError = require("../exceptions/api");
+const { checkValidationResult } = require("../utils/validation");
 
 const TEN_DAYS = 10 * 24 * 60 * 60 * 1000;
 
 class AuthController {
   async registration(req, res, next) {
     try {
-      const result = validationResult(req);
-
-      if (!result.isEmpty()) {
-        const errors = result.array();
-        throw ApiError.BadRequestError(
-          "Error while user registration.",
-          errors
-        );
-      }
+      checkValidationResult(req, "Error while user registration.");
 
       const { email, password } = req.body;
       const userData = await authService.registerUser(email, password);
@@ -43,6 +34,17 @@ class AuthController {
 
   async login(req, res, next) {
     try {
+      checkValidationResult(req, "Error while user login.");
+
+      const { email, password } = req.body;
+
+      const userData = await authService.login(email, password);
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: TEN_DAYS,
+        httpOnly: true,
+      });
+
+      res.json(userData);
     } catch (error) {
       next(error);
     }

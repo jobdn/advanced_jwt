@@ -1,4 +1,4 @@
-const { hash } = require("bcrypt");
+const { hash, compare } = require("bcrypt");
 const { v4 } = require("uuid");
 
 const mailService = require("./mail.service");
@@ -45,6 +45,21 @@ class AuthService {
 
     existentUser.isActivated = true;
     await existentUser.save();
+  }
+
+  async login(email, password) {
+    const existentUser = await UserModel.findOne({ email });
+    if (!existentUser)
+      throw ApiError.BadRequestError("User with this email wasn't find.");
+
+    const isEqual = await compare(password, existentUser.password);
+    if (!isEqual) throw ApiError.BadRequestError("Invalid password.");
+
+    const userDto = new UserDto(existentUser);
+    const tokens = tokenService.generateTokens({ ...userDto });
+    await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
+
+    return { ...tokens, user: userDto };
   }
 }
 
