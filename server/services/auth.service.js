@@ -36,6 +36,15 @@ class AuthService {
 
     return { ...tokens, user: userDto };
   }
+
+  async activateUserBy(link) {
+    const existentUser = await UserModel.findOne({ activationLink: link });
+
+    if (!existentUser) throw new Error("There is not user!!!");
+
+    existentUser.isActivated = true;
+    await existentUser.save();
+  }
 }
 
 module.exports = new AuthService();
