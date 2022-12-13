@@ -8,8 +8,12 @@ class AuthController {
     try {
       checkValidationResult(req, "Error while user registration.");
 
-      const { email, password } = req.body;
-      const userData = await authService.registerUser(email, password);
+      const { email, password, userName } = req.body;
+      const userData = await authService.registerUser(
+        email,
+        password,
+        userName
+      );
 
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: TEN_DAYS,

@@ -14,6 +14,12 @@ router.post(
   )
     .trim()
     .isLength({ min: 5, max: 32 }),
+  body(
+    "userName",
+    "Name of user must have length more then 5 and less then 32 character."
+  )
+    .trim()
+    .isLength({ min: 5, max: 32 }),
   authController.registration
 );
 router.get("/activate/:link", authController.activate);

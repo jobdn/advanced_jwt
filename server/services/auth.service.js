@@ -10,14 +10,16 @@ const { UserDto } = require("../dtos");
 const UserModel = require("../models/user");
 
 class AuthService {
-  async registerUser(email, password) {
+  async registerUser(email, password, userName) {
     const candidate = await UserModel.findOne({ email });
-    if (candidate) throw ApiError.BadRequestError("User already exists");
+    if (candidate)
+      throw ApiError.BadRequestError("User with this email already exists");
 
     // Create a user
     const hashedPassword = await hash(password, 3);
     const activationLink = v4();
     const user = await UserModel.create({
+      userName,
       email,
       password: hashedPassword,
       activationLink,
