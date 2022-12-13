@@ -2,21 +2,24 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Form } from "components/Form";
-import { useAppDispatch, useAppSelector } from "hooks";
 
-import { loginThunk } from "store/thunks/login.thunk";
+import { useAppDispatch, useAppSelector } from "hooks";
+import { registerThunk } from "store/thunks/register.thunk";
+
 import { Input } from "components/Input";
 
-export const LoginForm = () => {
+export const RegistrationForm = () => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [name, setName] = React.useState<string>("");
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading, error } = useAppSelector((state) => state.user);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(loginThunk({ email, password }))
+    dispatch(registerThunk({ email, password, userName: name }))
       .unwrap()
       .then(() => {
         navigate("/");
@@ -25,20 +28,26 @@ export const LoginForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} loading={loading} buttonLabel="Login">
+    <Form onSubmit={handleSubmit} buttonLabel="Sign up" loading={loading}>
+      <Input
+        type="text"
+        id="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Enter Your Name"
+        className="input"
+      />
       <Input
         type="email"
         id="email"
-        label="E-mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="email@gmail.com"
+        placeholder="Enter Your E-mail"
         className="input"
       />
       <Input
         type="password"
         id="password"
-        label="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Enter Your Password"

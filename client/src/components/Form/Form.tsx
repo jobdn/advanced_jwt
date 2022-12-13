@@ -18,7 +18,7 @@ export const Form: React.FC<FormProps> = ({
     <form onSubmit={onSubmit}>
       {children}
 
-      <button>{loading ? "spinner" : buttonLabel}</button>
+      <button disabled={loading}>{loading ? "Wait..." : buttonLabel}</button>
     </form>
   );
 };
