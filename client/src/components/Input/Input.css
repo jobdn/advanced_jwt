@@ -1,0 +1,19 @@
+p {
+    font-family: 'Poppins', sans-serif;
+    line-height: 21px;
+    color: #695C5C;
+}
+
+input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 10px 13px;
+
+    font-family: 'Poppins', sans-serif;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 0.7);
+
+    outline: none;
+}
