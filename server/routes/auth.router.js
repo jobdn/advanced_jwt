@@ -15,7 +15,7 @@ router.post(
     .trim()
     .isLength({ min: 5, max: 32 }),
   body(
-    "userName",
+    "name",
     "Name of user must have length more then 5 and less then 32 character."
   )
     .trim()
