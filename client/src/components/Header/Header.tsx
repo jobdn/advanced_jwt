@@ -12,9 +12,7 @@ import classes from "./Header.module.css";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const {
-    user: { name },
-  } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleLogout: React.MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -47,7 +45,14 @@ export const Header = () => {
       </nav>
 
       <div className={classes.header__row}>
-        <p>{name ? name : "Unknown user -_-"}</p>
+        <div className={classes.profile}>
+          <p>{user.name ? user.name : "Unknown user -_-"}</p>
+          {!user.isActivated ? (
+            <span className={classes.profile__subtitle}>
+              User is not activated
+            </span>
+          ) : null}
+        </div>
 
         <Button onClick={handleLogout} className={classes.header__button}>
           Logout

@@ -12,7 +12,7 @@ export const LoginForm = () => {
   const [password, setPassword] = React.useState<string>("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector((state) => state.user);
+  const loading = useAppSelector((state) => state.user.loading);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();

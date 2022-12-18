@@ -1,1 +1,1 @@
-export { APi_URL } from "./http.constants";
+export { API_URL } from "./http.constants";

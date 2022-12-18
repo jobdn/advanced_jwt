@@ -30,3 +30,9 @@
     background-color: white;
     color: #0E64D2;
 }
+
+.profile__subtitle {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ff0000;
+}

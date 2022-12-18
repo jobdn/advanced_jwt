@@ -9,13 +9,11 @@ export const UsersPage = () => {
   const { users } = useAppSelector((state) => state.allUsers);
 
   React.useEffect(() => {
-    if (!users.length) {
-      dispatch(usersThunk());
-    }
+    dispatch(usersThunk());
   }, []);
 
   return (
-    <div>
+    <div className="page page_center">
       <ul>
         {users.map((user) => (
           <li key={user.id}>{user.email}</li>

@@ -1,7 +1,8 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import backend from "../http";
 import { AuthResponse } from "../models/response/AuthResponse";
+import { API_URL } from "constants/http.constants";
 
 export class AuthService {
   static async login(
@@ -25,5 +26,11 @@ export class AuthService {
 
   static async logout() {
     return await backend.post("/auth/logout");
+  }
+
+  static async refresh() {
+    return axios.get<AuthResponse>(API_URL + "/auth/refresh", {
+      withCredentials: true,
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { checkAuthThunk } from "store/thunks/checkAuth.thunk";
 import { registerThunk } from "../thunks/register.thunk";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -8,12 +9,14 @@ import { User } from "models/User";
 
 interface UserState {
   user: User;
+  isAuth: boolean;
   error: boolean;
   loading: boolean;
 }
 
 const initialState: UserState = {
   user: {} as User,
+  isAuth: false,
   loading: false,
   error: false,
 };
@@ -21,7 +24,11 @@ const initialState: UserState = {
 export const userSlice = createSlice({
   name: "userSlice",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+  },
 
   extraReducers: (builder) => {
     // login
@@ -32,7 +39,7 @@ export const userSlice = createSlice({
       loginThunk.fulfilled,
       (state, action: PayloadAction<{ user: User; accessToken: string }>) => {
         state.loading = false;
-        state.error = false;
+        state.isAuth = true;
         state.user = action.payload.user;
       }
     );
@@ -45,6 +52,7 @@ export const userSlice = createSlice({
     // logout
     builder.addCase(logoutThunk.fulfilled, (state) => {
       state.user = {} as User;
+      state.isAuth = false;
     });
 
     // register
@@ -55,9 +63,8 @@ export const userSlice = createSlice({
     builder.addCase(
       registerThunk.fulfilled,
       (state, action: PayloadAction<{ user: User; accessToken: string }>) => {
-        // А вот обязательно изменять все поля слайса?
         state.loading = false;
-        state.error = false;
+        state.isAuth = true;
         state.user = action.payload.user;
       }
     );
@@ -65,7 +72,28 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
+
+    // refresh
+    builder.addCase(checkAuthThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      checkAuthThunk.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        console.log("full!", action.payload);
+
+        state.isAuth = true;
+        state.loading = false;
+        state.user = action.payload;
+      }
+    );
+
+    builder.addCase(checkAuthThunk.rejected, (state, action) => {
+      console.log("rej");
+      state.isAuth = false;
+      state.loading = false;
+    });
   },
 });
-
+export const userSliceActions = userSlice.actions;
 export const userReducer = userSlice.reducer;
