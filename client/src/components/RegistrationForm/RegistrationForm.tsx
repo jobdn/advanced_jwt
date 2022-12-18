@@ -19,7 +19,7 @@ export const RegistrationForm = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(registerThunk({ email, password, userName: name }))
+    dispatch(registerThunk({ email, password, name }))
       .unwrap()
       .then(() => {
         navigate("/");
@@ -36,6 +36,7 @@ export const RegistrationForm = () => {
         onChange={(e) => setName(e.target.value)}
         placeholder="Enter Your Name"
         className="input"
+        required
       />
       <Input
         type="email"
@@ -44,6 +45,7 @@ export const RegistrationForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Enter Your E-mail"
         className="input"
+        required
       />
       <Input
         type="password"
@@ -52,6 +54,7 @@ export const RegistrationForm = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Enter Your Password"
         className="input"
+        required
       />
     </Form>
   );

@@ -1,0 +1,16 @@
+.form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.form__button {
+    margin-top: 10px;
+    margin-bottom: 29px;
+    width: 100%;
+}
+
+@media screen and (min-width: 657px) {
+    .form {
+        width: 500px;
+    }
+}

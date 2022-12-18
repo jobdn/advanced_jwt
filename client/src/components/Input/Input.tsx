@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes } from "react";
 
-import "./Input.css";
+import classes from "./Input.module.css";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,9 +8,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input: React.FC<InputProps> = ({ label, ...props }) => {
   return (
-    <div>
-      <p>{label}</p>
-      <input {...props} />
-    </div>
+    <label>
+      {label}
+      <input {...props} className={classes.input} />
+    </label>
   );
 };

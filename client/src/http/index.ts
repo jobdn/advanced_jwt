@@ -2,9 +2,10 @@ import axios from "axios";
 import { AxiosRequestConfig, RawAxiosRequestHeaders } from "axios";
 
 import { AvailableToken } from "models/http";
+import { APi_URL } from "constants/http.constants";
 
 const backend = axios.create({
-  baseURL: "http://localhost:7000",
+  baseURL: APi_URL,
   withCredentials: true,
 });
 

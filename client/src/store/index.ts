@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import userReducer from "./slices/user.slice";
-import allUsersReducer from "./slices/all-users.slide";
+import { userReducer, allUsersReducer } from "./slices";
 
 const store = configureStore({
   reducer: {

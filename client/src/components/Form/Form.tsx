@@ -1,6 +1,8 @@
 import React from "react";
 
-import "./Form.css";
+import { Button } from "components/Button";
+
+import classes from "./Form.module.css";
 
 interface FormProps extends React.PropsWithChildren {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -15,10 +17,12 @@ export const Form: React.FC<FormProps> = ({
   children,
 }) => {
   return (
-    <form onSubmit={onSubmit}>
+    <form className={classes.form} onSubmit={onSubmit}>
       {children}
 
-      <button disabled={loading}>{loading ? "Wait..." : buttonLabel}</button>
+      <Button className={classes.form__button} disabled={loading}>
+        {loading ? "Wait..." : buttonLabel}
+      </Button>
     </form>
   );
 };

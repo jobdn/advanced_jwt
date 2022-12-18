@@ -12,12 +12,12 @@ export class AuthService {
   }
 
   static async register(
-    userName: string,
+    name: string,
     email: string,
     password: string
   ): Promise<AxiosResponse<AuthResponse>> {
     return await backend.post<AuthResponse>("/auth/registration", {
-      userName,
+      name,
       email,
       password,
     });
