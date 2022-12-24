@@ -1,28 +1,31 @@
-import { checkAuthThunk } from "store/thunks/checkAuth.thunk";
-import { registerThunk } from "../thunks/register.thunk";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { logoutThunk } from "../thunks/logout.thunk";
-import { loginThunk } from "../thunks/login.thunk";
-
+import { AvailableToken } from "models/http";
 import { User } from "models/User";
 
-interface UserState {
+import { checkAuthThunk } from "../thunks/checkAuth.thunk";
+import { logoutThunk } from "../thunks/logout.thunk";
+import { loginThunk } from "../thunks/login.thunk";
+import { registerThunk } from "../thunks/register.thunk";
+
+interface AuthState {
   user: User;
   isAuth: boolean;
   error: boolean;
   loading: boolean;
 }
 
-const initialState: UserState = {
+const userIsAuth = localStorage.getItem(AvailableToken.ACCESS) ? true : false;
+
+const initialState: AuthState = {
   user: {} as User,
-  isAuth: false,
+  isAuth: userIsAuth,
   loading: false,
   error: false,
 };
 
-export const userSlice = createSlice({
-  name: "userSlice",
+export const authSlice = createSlice({
+  name: "authSlice",
   initialState: initialState,
   reducers: {
     setLoading(state, action: PayloadAction<boolean>) {
@@ -95,5 +98,5 @@ export const userSlice = createSlice({
     });
   },
 });
-export const userSliceActions = userSlice.actions;
-export const userReducer = userSlice.reducer;
+export const userSliceActions = authSlice.actions;
+export const userReducer = authSlice.reducer;

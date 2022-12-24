@@ -1,2 +1,2 @@
-export { userReducer } from "./user.slice";
+export { userReducer } from "./auth.slice";
 export { allUsersReducer } from "./all-users.slide";

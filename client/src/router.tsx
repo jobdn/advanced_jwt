@@ -25,34 +25,23 @@ export const RequireAuth: React.FC = () => {
 
 export const Router = () => {
   const dispatch = useAppDispatch();
-  const firstRenderRef = React.useRef(true);
+  const isAuth = useAppSelector((state) => state.user.isAuth);
 
   React.useLayoutEffect(() => {
     function checkAuthOnFirstRender() {
-      if (localStorage.getItem(AvailableToken.ACCESS)) {
+      if (isAuth) {
         dispatch(checkAuthThunk());
       }
-    }
-
-    if (firstRenderRef.current) {
-      firstRenderRef.current = false;
     }
 
     checkAuthOnFirstRender();
   }, []);
 
-  const loading = useAppSelector((state) => state.user.loading);
-
-  if (loading || firstRenderRef.current) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route path="/" element={<Layout />}>
         <Route element={<RequireAuth />}>
-          {/* protected routes */}
-          <Route path="/" element={<HomePage />} />
+          <Route index element={<HomePage />} />
           <Route path="/users" element={<UsersPage />} />
         </Route>
       </Route>

@@ -1,7 +1,7 @@
-import { AvailableToken } from "./../../models/http";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
+import { AvailableToken } from "models/http";
 import { User } from "models/User";
 
 import { AuthService } from "services/AuthService";
@@ -19,6 +19,7 @@ export const checkAuthThunk = createAsyncThunk<
     return response.data.user;
   } catch (error) {
     console.error("X_X", error);
+    localStorage.removeItem(AvailableToken.ACCESS);
     return rejectWithValue(error as AxiosError);
   }
 });
