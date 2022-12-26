@@ -9,7 +9,7 @@ interface ButtonProps
   className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const ButtonComponent: React.FC<ButtonProps> = ({
   onClick: handleButtonClick,
   className,
   children,
@@ -25,3 +25,5 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
+export const Button = React.memo(ButtonComponent);

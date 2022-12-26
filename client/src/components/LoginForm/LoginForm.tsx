@@ -14,33 +14,45 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const loading = useAppSelector((state) => state.user.loading);
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    dispatch(loginThunk({ email, password }))
-      .unwrap()
-      .then(() => {
-        navigate("/");
-      })
-      .catch(console.error);
-  };
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> =
+    React.useCallback((e) => {
+      e.preventDefault();
+      dispatch(loginThunk({ email, password }))
+        .unwrap()
+        .then(() => {
+          navigate("/");
+        })
+        .catch(console.error);
+    }, []);
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> =
+    React.useCallback((e) => {
+      if (e.target.name === "email") {
+        setEmail(e.target.value);
+      } else {
+        setPassword(e.target.value);
+      }
+    }, []);
 
   return (
     <Form onSubmit={handleSubmit} loading={loading} buttonLabel="Login">
       <Input
         type="email"
+        name="email"
         id="email"
         label="E-mail"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
         placeholder="email@gmail.com"
         className="input"
       />
       <Input
         type="password"
         id="password"
+        name="password"
         label="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
         placeholder="Enter Your Password"
         className="input"
       />

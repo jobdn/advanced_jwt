@@ -10,7 +10,7 @@ interface FormProps extends React.PropsWithChildren {
   buttonLabel: string;
 }
 
-export const Form: React.FC<FormProps> = ({
+const FormComponent: React.FC<FormProps> = ({
   onSubmit,
   loading,
   buttonLabel,
@@ -26,3 +26,5 @@ export const Form: React.FC<FormProps> = ({
     </form>
   );
 };
+
+export const Form = React.memo(FormComponent);

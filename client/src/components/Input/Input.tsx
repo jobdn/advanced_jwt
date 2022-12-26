@@ -6,7 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export const Input: React.FC<InputProps> = ({ label, ...props }) => {
+export const InputComponent: React.FC<InputProps> = ({ label, ...props }) => {
   return (
     <label>
       {label}
@@ -14,3 +14,5 @@ export const Input: React.FC<InputProps> = ({ label, ...props }) => {
     </label>
   );
 };
+
+export const Input = React.memo(InputComponent);
